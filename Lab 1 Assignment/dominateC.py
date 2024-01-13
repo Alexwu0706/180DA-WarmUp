@@ -3,7 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
+#frame size
+framewidth = 1000
+frameheight = 2000
+
+#Setting Webcab size
 cap = cv.VideoCapture(0)
+cap.set(3,framewidth)
+cap.set(4,frameheight)
 
 def designatedRec(x,y,w,h,brgInputImage):
     temp = cv.rectangle(brgInputImage,(x,y),(x+w,y+h),(0,255,0),2)
@@ -42,7 +49,7 @@ while(1):
     _, frame = cap.read()
     # Convert BGR to HSV
     hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-    img = designatedRec(350,250,50,60,frame)
+    img = designatedRec(250,150,150,160,frame)
     # define range of blue color in HSV
     lower_blue = np.array([110,50,50])
     upper_blue = np.array([130,255,255])
@@ -56,18 +63,18 @@ while(1):
     clt = KMeans(n_clusters=3) #cluster number
     clt.fit(img)
 
+    # Display of your usual three images
+    cv.imshow('frame',frame)
+    cv.imshow('mask',mask)
+    cv.imshow('res',res)
+    k = cv.waitKey(5) & 0xFF
+
     # Display of the rectangle
     hist = find_histogram(clt)
     bar = plot_colors2(hist, clt.cluster_centers_)
     plt.axis("off")
     plt.imshow(bar)
     plt.show()
-
-    # Display of your usual three images
-    cv.imshow('frame',frame)
-    cv.imshow('mask',mask)
-    cv.imshow('res',res)
-    k = cv.waitKey(5) & 0xFF
     if k == 27:
         break
 
