@@ -1,0 +1,14 @@
+Q1:
+HSV is typically better than RGB because the HSV color model is more intuitive to human vision while the RGB color model is preferred by display hardware.For HSV values,
+I pick color of Pink. The lower bound is [20,100,100] and the upper bound is [40,255,255]
+
+Q2:
+Yes there is a distinct difference in the tracking ability of my object. When the light is on, your object is trackable as lights of the object reflects to the webcam, 
+and when the turn is off, the intensity of your reflected light is not strong enough which result in lost tracking the object. When I turn on my phone flashlight on the 
+object, the object also no longer trackable as the reflected light become too strong and it is no longer reflecting the color of itself
+
+Q3:
+The brigtness of my phone would affect my code to track the object because of the intensity of the reflected light of the object.
+
+Q4:
+The answer I got is that phone is more robost to brigtness in comparsion to non-phone object.
