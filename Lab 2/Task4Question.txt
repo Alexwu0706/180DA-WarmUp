@@ -1,0 +1,19 @@
+Write some short bullet points with some individual thoughts on how this applies to your project:
+
+Q1
+With the given speech program, I design do a sound detection-related game where players can give commands verbally in order to regulate the behaviors of the characters.
+
+Q2
+Short-phrase detection;
+Discernible Words;
+Simple and daily words;
+
+Q3
+Accuracy required; Beacuse if the wrong commands is peceived there is going to be consequences which might resulting in wrong commands are made
+
+Q4
+Optimization of the Software:
+set a threshold value of sound detection and a standard of sound perception in the defined function of 'recognize_speech_from_mic'
+
+Optimization of the Hardware:
+Installation of an external Microphone
