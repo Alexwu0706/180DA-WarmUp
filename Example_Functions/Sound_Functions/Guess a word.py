@@ -1,8 +1,9 @@
 import random
 import time
+
 import speech_recognition as sr
 
-#Speech Recognition Function
+
 def recognize_speech_from_mic(recognizer, microphone):
     """Transcribe speech from recorded from `microphone`.
 
@@ -15,8 +16,6 @@ def recognize_speech_from_mic(recognizer, microphone):
     "transcription": `None` if speech could not be transcribed,
                otherwise a string containing the transcribed text
     """
-    #Recognizer(language = "en-US", key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw")
-
     # check that recognizer and microphone arguments are appropriate type
     if not isinstance(recognizer, sr.Recognizer):
         raise TypeError("`recognizer` must be `Recognizer` instance")
@@ -27,9 +26,6 @@ def recognize_speech_from_mic(recognizer, microphone):
     # adjust the recognizer sensitivity to ambient noise and record audio
     # from the microphone
     with microphone as source:
-        intensity = 1.2
-        recognizer.dynamic_energy_ratio = intensity       #Improvement 2: The recorded sound need to be n times stronger than the ambient sound
-        recognizer.energy_threshold = 3000                #Improvement 1: change the threshold of sound recognition
         recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source)
 
@@ -56,20 +52,9 @@ def recognize_speech_from_mic(recognizer, microphone):
     return response
 
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#Application of the Speech Recognition Function
 if __name__ == "__main__":
     # set the list of words, maxnumber of guesses, and prompt limit
-    #WORDS = ["apple", "banana", "grape", "orange", "mango", "lemon"]
-    #WORDS = ["A", "B", "C", "D", "E", "F","G"]
-    #WORDS = ["found","sound","bound","mound"]
-    WORDS = ["How are you","How old are you","How are you doing","How is your day","What is your favorite color, Blue, Yellow, Green, Red, Purple or Black?"]
+    WORDS = ["apple", "banana", "grape", "orange", "mango", "lemon"]
     NUM_GUESSES = 3
     PROMPT_LIMIT = 5
 
