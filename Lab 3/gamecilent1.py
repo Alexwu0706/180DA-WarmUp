@@ -49,7 +49,7 @@ while True:
     time.sleep(2)
     msg = input("Enter the message that you want to send: "+ '\n' )
     client.publish("player1",msg,1)
-    if(msg == "exit now"):
+    if(msg == "quit"):
         break
 
 client.loop_stop()

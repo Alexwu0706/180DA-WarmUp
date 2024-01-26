@@ -5,8 +5,8 @@ import numpy as np
 #-------------------------Game Program-----------------------------------------------------------------------------
 def RPS(inputRPC1,inputRPC2):
     result = ""
-    if(inputRPC1 == inputRPC2):
-        result = "no one wins"
+    if(inputRPC1 == "quit" or inputRPC2 == "quit"):
+        result = "quitting"
     elif(inputRPC1 == "rock" and inputRPC2 == "paper"):
         result = "Player2 win"
     elif(inputRPC1 == "rock" and inputRPC2 == "scissor"):
@@ -19,8 +19,8 @@ def RPS(inputRPC1,inputRPC2):
         result = "Player1 win"
     elif(inputRPC1 == "scissor" and inputRPC2 == "rock"):
         result = "Player2 win"
-    elif(inputRPC1 == "exit now()" or inputRPC2 == "exit now()"):
-        result = "exit now()"
+    elif(inputRPC1 == inputRPC2):
+        result = "no one wins"
     else:
         result = "invalid input"
 
@@ -82,12 +82,13 @@ while(True):
         flag1 = flag1 + 1
     elif(result == "Player2 win"):
         flag2 = flag2 + 1
+    elif(result == "quitting"):
+        client.loop_stop()
+        client.disconnect()
+
     client.publish("result",result,1)
     client.publish("result"," Current Scoreboard ",1) 
     client.publish("result","player1 uses "+ User1input + '    ' + str(flag1),1)
     client.publish("result","player2 uses "+ User2input + '    ' + str(flag2),1)
-
     
 
-client.loop_stop()
-client.disconnect()

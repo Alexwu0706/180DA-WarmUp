@@ -1,25 +1,30 @@
 import random
 
 def RPS(inputRPC):
+    result = ""
     output = ["rock","paper","scissor"]
     outputRPC = random.choice(output)
     if(outputRPC == inputRPC):
-        print("your input is: " + inputRPC + ' And the computer input is: ' + outputRPC)
+        result = "no winner"
     elif(outputRPC == "rock" and inputRPC == "paper"):
-        print("you win")
+        result = "you win"
     elif(outputRPC == "rock" and inputRPC == "scissor"):
-        print("you lose")
+        result = "you lose"
     elif(outputRPC == "paper" and inputRPC == "scissor"):
-        print("you win")
+        result = "you win"
     elif(outputRPC == "paper" and inputRPC == "rock"):
-        print("you lose")
+        result = "you lose"
     elif(outputRPC == "scissor" and inputRPC == "rock"):
-        print("you win")
+        result = "you win"
     elif(outputRPC == "scissor" and inputRPC == "paper"):
-        print("you lose")
+        result = "you lose"
+    else:
+        result = "invalid input"
+
+    return result
 
 inputRPC = ""
 while(inputRPC != "stop"):
     inputRPC = input("Please enter your gesture:")
-    RPS(inputRPC)
+    print(RPS(inputRPC))
 
