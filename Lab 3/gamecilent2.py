@@ -1,4 +1,5 @@
 import random
+import time
 import paho.mqtt.client as mqtt
 import numpy as np
 
@@ -39,14 +40,14 @@ client.connect_async("mqtt.eclipseprojects.io")
 #2 get into a traffic flow
 client.loop_start()
 
-msg = input("Enter the message that you want to send: \n" )
+msg = input("Enter the message that you want to send:" + '\n' )
 client.publish("player2",msg,1)
 while True:
     resultmsg = ""
     while resultmsg == "":
         continue
-
-    msg = input("Enter the message that you want to send: \n" )
+    time.sleep(1)
+    msg = input("Enter the message that you want to send: "+ '\n' )
     client.publish("player2",msg,1)
     if(msg == "exit now"):
         break

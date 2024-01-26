@@ -16,11 +16,13 @@ def RPS(inputRPC1,inputRPC2):
     elif(inputRPC1 == "paper" and inputRPC2 == "rock"):
         result = "Player1 win"
     elif(inputRPC1 == "scissor" and inputRPC2 == "paper"):
-        result = "Player2 win"
-    elif(inputRPC1 == "scissor" and inputRPC2 == "rock"):
         result = "Player1 win"
+    elif(inputRPC1 == "scissor" and inputRPC2 == "rock"):
+        result = "Player2 win"
     elif(inputRPC1 == "exit now()" or inputRPC2 == "exit now()"):
         result = "exit now()"
+    else:
+        result = "invalid input"
 
     return result
 
@@ -80,10 +82,10 @@ while(True):
         flag1 = flag1 + 1
     elif(result == "Player2 win"):
         flag2 = flag2 + 1
-    client.publish("result","result: " + result + '\n',1)
-    client.publish("result","       scoreboard     " + '\n',1) 
-    client.publish("result","player1 uses "+ User1input + '    ' + str(flag1) + '\n',1)
-    client.publish("result","player2 uses "+ User2input + '    ' + str(flag2) + '\n',1)
+    client.publish("result",result,1)
+    client.publish("result"," Current Scoreboard ",1) 
+    client.publish("result","player1 uses "+ User1input + '    ' + str(flag1),1)
+    client.publish("result","player2 uses "+ User2input + '    ' + str(flag2),1)
 
     
 
