@@ -28,8 +28,9 @@ def on_connect(client, userdata, flags, rc):
     #print("Connection returned result: " + str(rc))
 # Subscribing in on_connect() means that if we lose the connection and
 # reconnect then subscriptions will be renewed.
-     client.subscribe("server0706_1",1)
-     client.subscribe("server0706_2",1)
+     client.subscribe("s2",1)
+     client.subscribe("s1",1)
+     client.subscribe("s",1)
 
 # The callback of the client when it disconnects.
 def on_disconnect(client, userdata, rc):
@@ -69,11 +70,14 @@ client.connect_async("mqtt.eclipseprojects.io")
 client.loop_start()
 
 while(True):
+    User1input = ""
+    User2input = ""
     while(User1input == "" or User2input == ""):
         continue
+
     result = RPS(User1input,User2input)
-    client.publish("server0706",result, 1)
-    break
+    client.publish("s",result, 1)
+    
 
 client.loop_stop()
 client.disconnect()
