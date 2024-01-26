@@ -10,7 +10,7 @@ def on_connect(client, userdata, flags, rc):
 # Subscribing in on_connect() means that if we lose the connection and
 # reconnect then subscriptions will be renewed.
 # client.subscribe("ece180d/test")
-    client.subscribe("s",1)
+    client.subscribe("result",1)
 
 # The callback of the client when it disconnects.
 def on_disconnect(client, userdata, rc):
@@ -22,15 +22,11 @@ def on_disconnect(client, userdata, rc):
 # The default message callback.
 # (won’t be used if only publishing, but can still exist)
         
-counter = 0
-Userinput = ""
+resultmsg = ""
 def on_message(client, userdata, message):
-    global counter
-    global Userinput
-    print("Received message: " + str(message.payload) + " on topic " + message.topic + " with QoS " + str(message.qos)) 
-    counter = counter + 1
-    Userinput = message.payload
-    print("you received " + str(counter) + " messages from others")
+    global resultmsg 
+    resultmsg = message.payload.decode()
+    print(resultmsg)
 
 #--------------------------------------Control Panel---------------------------------------------------------------------------
 #1 initialization a client
@@ -42,9 +38,16 @@ client.connect_async("mqtt.eclipseprojects.io")
 
 #2 get into a traffic flow
 client.loop_start()
+
+msg = input("Enter the message that you want to send: \n" )
+client.publish("player2",msg,1)
 while True:
+    resultmsg = ""
+    while resultmsg == "":
+        continue
+
     msg = input("Enter the message that you want to send: \n" )
-    client.publish("s2",msg,1)
+    client.publish("player2",msg,1)
     if(msg == "exit now"):
         break
 

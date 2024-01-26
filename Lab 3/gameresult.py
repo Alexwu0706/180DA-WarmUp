@@ -4,22 +4,25 @@ import numpy as np
 
 #-------------------------Game Program-----------------------------------------------------------------------------
 def RPS(inputRPC1,inputRPC2):
+    result = ""
     if(inputRPC1 == inputRPC2):
-        print("no one wins")
+        result = "no one wins"
     elif(inputRPC1 == "rock" and inputRPC2 == "paper"):
-        print("Player2 win")
+        result = "Player2 win"
     elif(inputRPC1 == "rock" and inputRPC2 == "scissor"):
-        print("Player1 win")
+        result = "Player1 win"
     elif(inputRPC1 == "paper" and inputRPC2 == "scissor"):
-        print("Player2 win")
+        result = "Player2 win"
     elif(inputRPC1 == "paper" and inputRPC2 == "rock"):
-        print("Player1 win")
+        result = "Player1 win"
     elif(inputRPC1 == "scissor" and inputRPC2 == "paper"):
-        print("Player2 win")
+        result = "Player2 win"
     elif(inputRPC1 == "scissor" and inputRPC2 == "rock"):
-        print("Player1 win")
+        result = "Player1 win"
     elif(inputRPC1 == "exit now()" or inputRPC2 == "exit now()"):
-        print("exit now()")
+        result = "exit now()"
+
+    return result
 
 #=========================Communication---------------------------------------------------------------------------
 # 0. define callbacks - functions that run when events happen.
@@ -28,9 +31,8 @@ def on_connect(client, userdata, flags, rc):
     #print("Connection returned result: " + str(rc))
 # Subscribing in on_connect() means that if we lose the connection and
 # reconnect then subscriptions will be renewed.
-     client.subscribe("s2",1)
-     client.subscribe("s1",1)
-     client.subscribe("s",1)
+    client.subscribe("player1",1)
+    client.subscribe("player2",1)
 
 # The callback of the client when it disconnects.
 def on_disconnect(client, userdata, rc):
@@ -42,21 +44,17 @@ def on_disconnect(client, userdata, rc):
 # The default message callback.
 # (won’t be used if only publishing, but can still exist)
         
-counter = 0
 User1input = ""
 User2input = ""
 def on_message(client, userdata, message):
-    global counter
     global User1input
     global User2input
-    if (message.topic == 'server0706_1'):      
+    if (message.topic == "player1"):      
         User1input = message.payload.decode()
         print("Received message: " + User1input + " on topic " + message.topic + " with QoS " + str(message.qos)) 
-        print("you received " + str(counter) + " messages from others")
-    elif (message.topic == "server0706_2"):
+    elif (message.topic == "player2"):
         User2input = message.payload.decode()
         print("Received message: " + User2input + " on topic " + message.topic + " with QoS " + str(message.qos)) 
-        print("you received " + str(counter) + " messages from others")  
 
 #--------------------------------------Control Panel---------------------------------------------------------------------------
 #1 initialization a client
@@ -69,6 +67,8 @@ client.connect_async("mqtt.eclipseprojects.io")
 #2 get into a traffic flow
 client.loop_start()
 
+flag1 = 0
+flag2 = 0
 while(True):
     User1input = ""
     User2input = ""
@@ -76,7 +76,15 @@ while(True):
         continue
 
     result = RPS(User1input,User2input)
-    client.publish("s",result, 1)
+    if(result == "Player1 win"):
+        flag1 = flag1 + 1
+    elif(result == "Player2 win"):
+        flag2 = flag2 + 1
+    client.publish("result","result: " + result + '\n',1)
+    client.publish("result","       scoreboard     " + '\n',1) 
+    client.publish("result","player1 uses "+ User1input + '    ' + str(flag1) + '\n',1)
+    client.publish("result","player2 uses "+ User2input + '    ' + str(flag2) + '\n',1)
+
     
 
 client.loop_stop()
