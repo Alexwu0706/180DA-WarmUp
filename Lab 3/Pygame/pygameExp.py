@@ -124,7 +124,7 @@ while running:
     # Update enemy position
     enemies.update()
 
-    # Fill the screen with black
+    # Fill the screen with blue
     screen.fill((135, 206, 250))
 
     # Draw all sprites
