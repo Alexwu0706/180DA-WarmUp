@@ -30,14 +30,10 @@ def RPS(inputRPC):
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
 from pygame.locals import (
-    RLEACCEL,
     K_e,
     K_q,
     K_w,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
+    K_SPACE,
     K_ESCAPE,
     KEYDOWN,
     QUIT,
@@ -51,38 +47,27 @@ SCREEN_HEIGHT = 600
 class Rock(pygame.sprite.Sprite):
     def __init__(self):
         super(Rock,self).__init__()
-        self.surf = pygame.Surface((70,20))                  #size of your sprite
-        self.surf.fill((255,255,255))                        #color of your sprite
+        self.surf = pygame.image.load('rock.png')                           #size of your sprite
+        self.surf = pygame.transform.scale(self.surf, (50,50))
+        #self.surf.set_colorkey((255, 255, 255), RLEACCEL)                     #color of your sprite
         self.rect = self.surf.get_rect()                     #get your coordinate as a rectangular
 
 class Paper(pygame.sprite.Sprite):
     def __init__(self):
         super(Paper,self).__init__()
-        self.surf = pygame.Surface((70,20))
-        self.surf.fill((255,255,255))
+        self.surf = pygame.image.load('paper.png')                           #size of your sprite
+        self.surf = pygame.transform.scale(self.surf, (50,50))
+        #self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
 
 class Scissor(pygame.sprite.Sprite):
     def __init__(self):
         super(Scissor,self).__init__()
-        self.surf = pygame.Surface((70,20))
-        self.surf.fill((255,255,255))
+        self.surf = pygame.image.load('scissor.png')                           #size of your sprite
+        self.surf = pygame.transform.scale(self.surf, (50,50))
+        #self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
 
-def display_text(text,duration,pt):
-    ct = pygame.time.get_ticks()
-    text_surface = font.render(text, True, (0,0,0))
-    text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 250))
-    screen.blit(text_surface, text_rect)
-    pygame.display.update()
-    if(ct - pt > duration):
-        screen.fill((135, 206, 250))
-        screen.blit(rock.surf,(280,500))
-        screen.blit(paper.surf,(380,500))
-        screen.blit(scissor.surf,(480,500))
-
-    pygame.display.update(text_rect)
-    
 #Main Operation
 pygame.init()
 past_time = pygame.time.get_ticks()
@@ -94,40 +79,73 @@ rock = Rock()
 paper = Paper()
 scissor = Scissor()
 
+#Loop Process
 running = True
+again = True
 while running:
     #Update your screen display
+    
     text_surface = font.render("rock,paper,scissor", True, (0,0,0))
     text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
-    guess_surface = font.render("", True, (0,0,0))
-    guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))    
+
     pressed_keys = pygame.key.get_pressed()
+    mouse = pygame.mouse.get_pos()
+
     for event in pygame.event.get():
+        #Key_click
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
-            elif event.key == K_q:
+            elif (event.key == K_q and again == True):
                 result = RPS("rock")
                 guess_surface = font.render(result, True, (0,0,0))
-                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))    
-            elif event.key == K_w:
+                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+                again = False
+            elif (event.key == K_w and again == True):
                 result = RPS("paper")
                 guess_surface = font.render(result, True, (0,0,0))
-                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))    
-            elif event.key == K_e:
+                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+                again = False   
+            elif (event.key == K_e and again == True):
                 result = RPS("scissor")
                 guess_surface = font.render(result, True, (0,0,0))
-                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))    
+                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)) 
+                again = False
+            elif (event.key == K_SPACE):
+                again = True
+        #Mouse_click
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if(280 <= mouse[0] <= 330 and 500<=mouse[1] <= 550):
+                result = RPS("rock")
+                guess_surface = font.render(result, True, (0,0,0))
+                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+                again = False
+            elif(380 <= mouse[0] <= 430 and 500<=mouse[1] <= 550):
+                result = RPS("paper")
+                guess_surface = font.render(result, True, (0,0,0))
+                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+                again = False
+            elif(480 <= mouse[0] <= 530 and 500 <=mouse[1] <= 550):
+                result = RPS("scissor")
+                guess_surface = font.render(result, True, (0,0,0))
+                guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+                again = False
+            elif(350 <= mouse[0] <= 450 and 550 <=mouse[1] <= 600):
+                again = True
         elif event.type == QUIT:
                 running = False
 
     screen.fill((135, 206, 250))
-
     #show your sprite in "screen" 
-    screen.blit(rock.surf,(280,500))
-    screen.blit(paper.surf,(380,500))
-    screen.blit(scissor.surf,(480,500))
-    screen.blit(text_surface,text_rect)
-    screen.blit(guess_surface,guess_rect)
+    if(again == True):
+        screen.blit(rock.surf,(280,500))
+        screen.blit(paper.surf,(380,500))
+        screen.blit(scissor.surf,(480,500))
+        screen.blit(text_surface,text_rect)
+    else:
+        again_surface = font.render("again", True, (0,0,0))
+        screen.blit(guess_surface,guess_rect)
+        screen.blit(again_surface,(350,550))
+
     pygame.display.flip()
     clock.tick(60)
