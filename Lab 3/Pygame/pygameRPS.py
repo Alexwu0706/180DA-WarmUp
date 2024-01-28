@@ -70,11 +70,14 @@ class Scissor(pygame.sprite.Sprite):
 
 #Main Operation
 pygame.init()
-past_time = pygame.time.get_ticks()
 pygame.display.set_caption('Rock,Paper,Scissor')
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-font = pygame.font.Font(None, 36)
 clock = pygame.time.Clock()
+
+font = pygame.font.Font(None, 36)
+text_surface = font.render("rock,paper,scissor", True, (0,0,0))
+text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
+
 rock = Rock()
 paper = Paper()
 scissor = Scissor()
@@ -84,10 +87,6 @@ running = True
 again = True
 while running:
     #Update your screen display
-    
-    text_surface = font.render("rock,paper,scissor", True, (0,0,0))
-    text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
-
     pressed_keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pos()
 
