@@ -30,9 +30,9 @@ def RPS(inputRPC):
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
 from pygame.locals import (
-    K_z,
-    K_x,
-    K_c,
+    K_q,
+    K_w,
+    K_e,
     K_SPACE,
     K_ESCAPE,
     KEYDOWN,
@@ -96,17 +96,17 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
-            elif (event.key == K_z and again == True):
+            elif (event.key == K_q and again == True):
                 result = RPS("rock")
                 guess_surface = font.render(result, True, (0,0,0))
                 guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
                 again = False
-            elif (event.key == K_x and again == True):
+            elif (event.key == K_e and again == True):
                 result = RPS("paper")
                 guess_surface = font.render(result, True, (0,0,0))
                 guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
                 again = False   
-            elif (event.key == K_c and again == True):
+            elif (event.key == K_w and again == True):
                 result = RPS("scissor")
                 guess_surface = font.render(result, True, (0,0,0))
                 guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)) 
@@ -135,17 +135,23 @@ while running:
         elif event.type == QUIT:
                 running = False
 
-    screen.fill((135, 206, 250))
+    screen.fill((66, 245, 90))
     #show your sprite in "screen" 
     if(again == True):
         screen.blit(rock.surf,(280,500))
         screen.blit(paper.surf,(380,500))
         screen.blit(scissor.surf,(480,500))
         screen.blit(text_surface,text_rect)
+        instr_surface1 = font.render("instruction:", True, (255,255,255))
+        screen.blit(instr_surface1,(330,100))
+        instr_surface2 = font.render("Click the icon or type in your gesture", True, (255,255,255))
+        screen.blit(instr_surface2,(210,130))
+        instr_surface3 = font.render("Q=Rock, W=Paper, E=Scissor", True, (255,255,255))
+        screen.blit(instr_surface3,(250,160))
     else:
         again_surface = font.render("again", True, (0,0,0))
         screen.blit(guess_surface,guess_rect)
-        screen.blit(again_surface,(350,550))
+        screen.blit(again_surface,(370,550))
 
     pygame.display.flip()
     clock.tick(60)
