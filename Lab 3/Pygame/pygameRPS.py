@@ -30,9 +30,9 @@ def RPS(inputRPC):
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
 from pygame.locals import (
-    K_e,
-    K_q,
-    K_w,
+    K_z,
+    K_x,
+    K_c,
     K_SPACE,
     K_ESCAPE,
     KEYDOWN,
@@ -96,17 +96,17 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
-            elif (event.key == K_q and again == True):
+            elif (event.key == K_z and again == True):
                 result = RPS("rock")
                 guess_surface = font.render(result, True, (0,0,0))
                 guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
                 again = False
-            elif (event.key == K_w and again == True):
+            elif (event.key == K_x and again == True):
                 result = RPS("paper")
                 guess_surface = font.render(result, True, (0,0,0))
                 guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
                 again = False   
-            elif (event.key == K_e and again == True):
+            elif (event.key == K_c and again == True):
                 result = RPS("scissor")
                 guess_surface = font.render(result, True, (0,0,0))
                 guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)) 
