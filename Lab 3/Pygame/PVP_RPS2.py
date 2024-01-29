@@ -212,7 +212,7 @@ while running:
         screen.blit(again_surface,(370,550))
 
     pygame.display.flip()
-    clock.tick(5)
+    clock.tick(2)
 
 client.loop_stop()
 client.disconnect()
