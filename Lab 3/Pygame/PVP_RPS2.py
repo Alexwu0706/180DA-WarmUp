@@ -1,5 +1,6 @@
 import random
 import time
+import math
 import paho.mqtt.client as mqtt
 import numpy as np
 import pygame
@@ -95,21 +96,41 @@ running = True
 screen1 = False
 screen2 = False
 screen3 = False
+screen4 = False
+screen5 = False
+
 again = True
+running = True
 while running:
     #Update your screen display
     if(player1msg == "" and player2msg == "" and again == True):
         screen1 = True
         screen2 = False
         screen3 = False
+        screen4 = False
+        screen5 = False
     elif(player1msg == "" and player2msg != ""):
         screen1 = False
-        screen2 = True
-        screen3 = False
+        if(count % 3 == 1):
+            screen2 = True
+            screen3 = False
+            screen4 = False
+        elif(count % 3 == 2):
+            screen2 = False
+            screen3 = True
+            screen4 = False
+        elif(count % 3 == 0):
+            screen2 = False
+            screen3 = False
+            screen4 = True
+        screen5 = False
+        count = count + 1
     elif(player1msg != "" and player2msg != "" and resultmsg != ""):
         screen1 = False
         screen2 = False
-        screen3 = True
+        screen3 = False
+        screen4 = False
+        screen5 = True
     
     pressed_keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pos()
@@ -125,17 +146,17 @@ while running:
                 client.publish("player2","paper",1)
             elif (event.key == K_d and screen1 == True):
                 client.publish("player2","scissor",1)
-            elif (event.key == K_SPACE):
+            elif (event.key == K_SPACE and screen5 == True):
                 screen1 = True
         #Mouse_click
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if(280 <= mouse[0] <= 330 and 500<=mouse[1] <= 550):
+            if(280 <= mouse[0] <= 330 and 500<=mouse[1] <= 550 and screen1 == True):
                 client.publish("player2","rock",1)
-            elif(380 <= mouse[0] <= 430 and 500<=mouse[1] <= 550):
+            elif(380 <= mouse[0] <= 430 and 500<=mouse[1] <= 550 and screen1 == True):
                 client.publish("player2","paper",1)
-            elif(480 <= mouse[0] <= 530 and 500 <=mouse[1] <= 550):
+            elif(480 <= mouse[0] <= 530 and 500 <=mouse[1] <= 550 and screen1 == True):
                 client.publish("player2","scissor",1)
-            elif(350 <= mouse[0] <= 450 and 550 <=mouse[1] <= 600):
+            elif(350 <= mouse[0] <= 450 and 550 <=mouse[1] <= 600 and screen5 == True):
                 screen1 = True
         elif event.type == QUIT:
                 running = False
@@ -143,6 +164,7 @@ while running:
     screen.fill((66, 245, 90))
     #show your sprite in "screen" 
     if(screen1 == True):
+        count = 1
         screen.blit(rock.surf,(280,500))
         screen.blit(paper.surf,(380,500))
         screen.blit(scissor.surf,(480,500))
@@ -157,12 +179,32 @@ while running:
         screen.blit(instr_surface3,(250,160))
     elif(screen2 == True):
         again = False
-        wait_surface = font.render("Waiting other players responses", True, (0,0,0))
-        screen.blit(wait_surface,(370,550))
+        text_surface = font.render("rock,paper,scissor", True, (0,0,0))
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
+        screen.blit(text_surface,text_rect)
+        wait_surface = font.render("Waiting other players responses..", True, (0,0,0))
+        screen.blit(wait_surface,(320,450))
     elif(screen3 == True):
+        again = False
+        text_surface = font.render("rock,paper,scissor", True, (0,0,0))
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
+        screen.blit(text_surface,text_rect)
+        wait_surface = font.render("Waiting other players responses....", True, (0,0,0))
+        screen.blit(wait_surface,(320,450))
+    elif(screen4 == True):
+        again = False
+        text_surface = font.render("rock,paper,scissor", True, (0,0,0))
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
+        screen.blit(text_surface,text_rect)
+        wait_surface = font.render("Waiting other players responses......", True, (0,0,0))
+        screen.blit(wait_surface,(320,450))
+    elif(screen5 == True):
         again = False
         player1msg = ""
         player2msg = ""
+        text_surface = font.render("rock,paper,scissor", True, (0,0,0))
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
+        screen.blit(text_surface,text_rect)
         again_surface = font.render("again", True, (0,0,0))
         guess_surface = font.render(resultmsg, True, (0,0,0))
         guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
@@ -170,7 +212,7 @@ while running:
         screen.blit(again_surface,(370,550))
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(5)
 
 client.loop_stop()
 client.disconnect()
