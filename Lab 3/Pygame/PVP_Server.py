@@ -5,8 +5,8 @@ import numpy as np
 #-------------------------Game Program-----------------------------------------------------------------------------
 def RPS(inputRPC1,inputRPC2):
     result = ""
-    if(inputRPC1 == "quit" or inputRPC2 == "quit"):
-        result = "quitting"
+    if(inputRPC1 == "again" or inputRPC2 == "again"):
+        result = "again"
     elif(inputRPC1 == "rock" and inputRPC2 == "paper"):
         result = "Player 2 wins"
     elif(inputRPC1 == "rock" and inputRPC2 == "scissor"):
