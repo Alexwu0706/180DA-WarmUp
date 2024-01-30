@@ -8,17 +8,17 @@ def RPS(inputRPC1,inputRPC2):
     if(inputRPC1 == "quit" or inputRPC2 == "quit"):
         result = "quitting"
     elif(inputRPC1 == "rock" and inputRPC2 == "paper"):
-        result = "Player2 wins"
+        result = "Player 2 wins"
     elif(inputRPC1 == "rock" and inputRPC2 == "scissor"):
-        result = "Player1 wins"
+        result = "Player 1 wins"
     elif(inputRPC1 == "paper" and inputRPC2 == "scissor"):
-        result = "Player2 wins"
+        result = "Player 2 wins"
     elif(inputRPC1 == "paper" and inputRPC2 == "rock"):
-        result = "Player1 wins"
+        result = "Player 1 wins"
     elif(inputRPC1 == "scissor" and inputRPC2 == "paper"):
-        result = "Player1 wins"
+        result = "Player 1 wins"
     elif(inputRPC1 == "scissor" and inputRPC2 == "rock"):
-        result = "Player2 wins"
+        result = "Player 2 wins"
     elif(inputRPC1 == inputRPC2):
         result = "no one wins"
     else:
@@ -78,15 +78,15 @@ while(True):
         continue
 
     result = RPS(User1input,User2input)
-    if(result == "Player1 win"):
+    if(result == "Player 1 win"):
         flag1 = flag1 + 1
-    elif(result == "Player2 win"):
+    elif(result == "Player 2 win"):
         flag2 = flag2 + 1
     elif(result == "quitting"):
         client.loop_stop()
         client.disconnect()
 
-    client.publish("result",result,1)
+    client.publish("result", result , 1)
     #client.publish("result"," Current Scoreboard ",1) 
     #client.publish("result","player1 uses "+ User1input + '    ' + str(flag1),1)
     #client.publish("result","player2 uses "+ User2input + '    ' + str(flag2),1)

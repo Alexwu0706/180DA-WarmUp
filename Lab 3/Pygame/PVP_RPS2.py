@@ -92,13 +92,16 @@ paper = Paper()
 scissor = Scissor()
 
 client.loop_start()
-running = True
 screen1 = False
 screen2 = False
 screen3 = False
 screen4 = False
 screen5 = False
-
+score1 = 0
+score2 = 0
+temp1 = ""
+temp2 = ""
+temp3 = ""
 again = True
 running = True
 while running:
@@ -168,7 +171,7 @@ while running:
         screen.blit(rock.surf,(280,500))
         screen.blit(paper.surf,(380,500))
         screen.blit(scissor.surf,(480,500))
-        text_surface = font.render("rock,paper,scissor", True, (0,0,0))
+        text_surface = font.render("Rock,Paper,Scissor!", True, (0,0,0))
         text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
         screen.blit(text_surface,text_rect)
         instr_surface1 = font.render("instruction:", True, (255,255,255))
@@ -178,38 +181,57 @@ while running:
         instr_surface3 = font.render("A=Rock, S=Paper, D=Scissor", True, (255,255,255))
         screen.blit(instr_surface3,(250,160))
     elif(screen2 == True):
-        again = False
         text_surface = font.render("rock,paper,scissor", True, (0,0,0))
         text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
         screen.blit(text_surface,text_rect)
         wait_surface = font.render("Waiting other players responses..", True, (0,0,0))
         screen.blit(wait_surface,(320,450))
     elif(screen3 == True):
-        again = False
         text_surface = font.render("rock,paper,scissor", True, (0,0,0))
         text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
         screen.blit(text_surface,text_rect)
         wait_surface = font.render("Waiting other players responses....", True, (0,0,0))
         screen.blit(wait_surface,(320,450))
     elif(screen4 == True):
-        again = False
         text_surface = font.render("rock,paper,scissor", True, (0,0,0))
         text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
         screen.blit(text_surface,text_rect)
         wait_surface = font.render("Waiting other players responses......", True, (0,0,0))
         screen.blit(wait_surface,(320,450))
     elif(screen5 == True):
+        if(player1msg == "rock" or player1msg == "paper" or player1msg == "scissor"):
+            temp1 = player1msg
+        if(player2msg == "rock" or player2msg == "paper" or player2msg == "scissor"):
+            temp2 = player2msg
+        if(resultmsg == "Player 1 wins" or resultmsg == "Player 2 wins" or resultmsg == "no one wins"):
+            temp3 = resultmsg
+
+        if(resultmsg == "Player 1 wins"):
+            score1 = score1 + 1
+        elif(resultmsg == "Player 2 wins"):
+            score2 = score2 + 1
+            
+        text_surface = font.render("Rock,Paper,Scissor!", True, (0,0,0))
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
+        screen.blit(text_surface,text_rect)
+        guess_surface = font.render(temp3, True, (0,0,0))
+        caption1_surface = font.render("Player 1 uses " + temp1, True,(0,0,0))
+        caption2_surface = font.render("Player 2 uses " + temp2, True,(0,0,0))
+        caption3_surface = font.render("Scoreboard", True,(0,0,0))
+        caption4_surface = font.render("Player 1: " + str(score1), True, (0,0,0))
+        caption5_surface = font.render("Player 2: " + str(score2), True, (0,0,0))
+        again_surface = font.render("again", True, (0,0,0))
+        screen.blit(guess_surface,(320,150))    
+        screen.blit(caption1_surface,(200,200))
+        screen.blit(caption2_surface,(200,250))
+        screen.blit(caption3_surface,(320,350))
+        screen.blit(caption4_surface,(200,400))
+        screen.blit(caption5_surface,(200,450))
+        screen.blit(again_surface,(370,550))
         again = False
         player1msg = ""
         player2msg = ""
-        text_surface = font.render("rock,paper,scissor", True, (0,0,0))
-        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2-250))
-        screen.blit(text_surface,text_rect)
-        again_surface = font.render("again", True, (0,0,0))
-        guess_surface = font.render(resultmsg, True, (0,0,0))
-        guess_rect = guess_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-        screen.blit(guess_surface,guess_rect)
-        screen.blit(again_surface,(370,550))
+        resultmsg = ""
 
     pygame.display.flip()
     clock.tick(2)
