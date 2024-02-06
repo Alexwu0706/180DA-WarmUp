@@ -1,8 +1,8 @@
 #include <WiFi.h>
-
+#include "arduino_secrets.h"
 // WiFi network name and password:
-const char * networkName = "YOUR_NETWORK_HERE";
-const char * networkPswd = "YOUR_PASSWORD_HERE";
+const char * networkName = SECRET_SSID;
+const char * networkPswd = SECRET_PASS;
 
 // Internet domain to request from:
 const char * hostDomain = "example.com";
@@ -56,7 +56,7 @@ void connectToWiFi(const char * ssid, const char * pwd)
     delay(500);
     Serial.print(".");
   }
-
+  
   Serial.println();
   Serial.println("WiFi connected!");
   Serial.print("IP address: ");
@@ -112,4 +112,3 @@ void printLine()
     Serial.print("-");
   Serial.println();
 }
-
