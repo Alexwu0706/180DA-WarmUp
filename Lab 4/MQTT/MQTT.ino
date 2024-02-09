@@ -83,7 +83,6 @@ void setup() {
      delay(500);
    } else {
      initialized = true;
-  
    }
  }
 }
