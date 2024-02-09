@@ -25,9 +25,10 @@ const char *password = SECRET_PASS; // Enter WiFi password
 const char *mqtt_broker = "mqtt.eclipseprojects.io";
 const char *topic = "lol123";
 const int mqtt_port = 1883;
-
 WiFiClient espClient;
 PubSubClient client(espClient);
+
+//Variable
 
 void setup() {
  // Set software serial baud to 115200;
@@ -98,6 +99,9 @@ void callback(char *topic, byte *payload, unsigned int length) {
    Serial.println("-----------------------");
 }
 
+float past_accX = 0;
+float past_accZ = 0;
+float past_gyzX = 0;
 void loop()
 {
    int predictedidleP = 0;
@@ -107,14 +111,19 @@ void loop()
      myICM.getAGMT(); // The values are only updated when you call ’getAGMT’
      printRawAGMT( myICM.agmt ); // Uncomment this to see the raw values, taken directly from the agmt structure printScaledAGMT(&myICM); // This function takes into account the scale settings from when the measurement was made to calculate the values with units
      //client.publish(topic, myICM->acc.axes.x);
-     client.loop();
-     delay(300);
-
+     
+     //prediction model
      if(predicted_idle(myICM.agmt)){
         predictedidleP += 1;
       }else{
         predictedidleN += 1;
      }
+
+     //classifier
+     classifier(myICM.agmt);
+
+     client.loop();
+     delay(30);
    }
    else
    {
@@ -209,24 +218,30 @@ bool predicted_idle(ICM_20948_AGMT_t agmt){
   }
 }
 
-
-int classifier(ICM_20948_AGMT_t agmt)
+void classifier(ICM_20948_AGMT_t agmt)
 {
-   int forwardcount = 0;
-   int upwardcount = 0;
-   int noactioncount = 0;
-  
-  if(agmt.acc.axes.x){
-    forwardcount += 1;
+  float current_accX = agmt.acc.axes.x;
+  float current_accZ = agmt.acc.axes.z;
+  float current_gyzX = agmt.acc.axes.x;
+  if((current_accX - past_accX) > 100){
+    SERIAL_PORT.print("Forward");
   }
 
-  if(agmt.acc.axes.z){
-    upwardcount += 1;
+  if((current_accZ - past_accZ) > 100){
+    SERIAL_PORT.print("Upward");
+  }
+
+  if((current_gyzX - past_gyzX) > 100){
+    SERIAL_PORT.print("Rotation Left");
   }
 
   if(predicted_idle(myICM.agmt) == true){
-    noactioncount += 1;
+    SERIAL_PORT.print("no action");
   }
+
+  past_accX = current_accX;
+  past_accZ = current_accZ;
+  past_gyzX = current_gyzX;
 }
 
 void printFormattedFloat(float val, uint8_t leading, uint8_t decimals)
