@@ -11,12 +11,12 @@ def areaofCnt(img_mask):
         x,y,w,h = cv.boundingRect(cnt)
         area = cv.contourArea(cnt) 
         if((area > 5000) and (area < 10000)):
-            cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+            cv.rectangle(frame,(600-x,y),(600-(x+w),y+h),(0,255,0),2)
             #cv.putText(frame, "area is: " + str(area), (x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-            cv.putText(frame, "close", (x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv.putText(frame, "close", (600-x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         elif(area > 10000):
-            cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-            cv.putText(frame, "open", (x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv.rectangle(frame,(600-x,y),(600-(x+w),y+h),(0,255,0),2)
+            cv.putText(frame, "open", (600-x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
 #draw a rectangle on your brg image
 def designatedRec(x,y,w,h,brgInputImage):
