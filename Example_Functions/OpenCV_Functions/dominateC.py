@@ -12,6 +12,11 @@ cap = cv.VideoCapture(0)
 cap.set(3,framewidth)
 cap.set(4,frameheight)
 
+#Function of Contour (input image(your target image), output image(your base image))
+def getContour(img,imgContour):
+    contours,hierarchy = cv.findContours(img, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+    cv.drawContours(imgContour,contours, -1, (255,0,255),7)
+
 def designatedRec(x,y,w,h,brgInputImage):
     temp = cv.rectangle(brgInputImage,(x,y),(x+w,y+h),(0,255,0),2)
     img = cv.cvtColor(temp, cv.COLOR_BGR2RGB)
@@ -57,11 +62,13 @@ while(1):
     mask = cv.inRange(hsv, lower_blue, upper_blue)
     # Bitwise-AND mask and original image
     res = cv.bitwise_and(frame, frame, mask= mask)
+
+    imgContour = frame.copy()
     # Your crop image of frame(which is your target area of the frame)
     img = cv.cvtColor(frame[150:310,250:400], cv.COLOR_BGR2RGB)
     #Contour of your rectangle (Display of the rectangle)
     designatedRec(250,150,150,160,frame)
-  
+    getContour(mask,imgContour)
     # Display of your usual four images
     cv.imshow('frame',frame)
     cv.imshow('mask',mask)

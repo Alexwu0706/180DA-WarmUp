@@ -16,10 +16,11 @@ while(1):
 
     #Return contours of your GRAY image target as an array
     contours,hierarchy = cv.findContours(mask, 1, 2)
+    
     for cnt in contours:
         x,y,w,h = cv.boundingRect(cnt)
         cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-
+    
     #Display
     cv.imshow('frame',frame)
     cv.imshow('mask',mask)
