@@ -10,7 +10,7 @@ def areaofCnt(img_mask):
     for cnt in contours:
         x,y,w,h = cv.boundingRect(cnt)
         area = cv.contourArea(cnt) 
-        if((area > 5000) and (area < 10000)):
+        if((area > 5000) and (area <= 10000)):
             cv.rectangle(frame,(600-x,y),(600-(x+w),y+h),(0,255,0),2)
             #cv.putText(frame, "area is: " + str(area), (x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
             cv.putText(frame, "close", (600-x, y), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
@@ -30,11 +30,8 @@ while(1):
     # define range of blue color in HSV
     lower_yellow = np.array([20,100,100])
     upper_yellow = np.array([40,255,255])
-    
-    '''
     lower_green = np.array([50,100,100])
     upper_green = np.array([70,255,255])
-    '''
 
     # Convert BGR to HSV
     hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
@@ -45,7 +42,7 @@ while(1):
     res = cv.bitwise_and(frame, frame, mask= mask)
     
     #crop_hsv = cv.cvtColor(frame[400:640,0:480], cv.COLOR_BGR2HSV)
-    left_screen = frame[0:640,450:650]
+    left_screen = frame[0:600,400:600]
     crop_hsv = cv.cvtColor(left_screen, cv.COLOR_BGR2HSV)
     mask_interest = cv.inRange(crop_hsv,lower_yellow, upper_yellow)
 

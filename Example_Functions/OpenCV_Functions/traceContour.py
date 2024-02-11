@@ -31,14 +31,12 @@ while(1):
     res = cv.bitwise_and(frame,frame, mask= mask)
 
     #Contour of our three images
-    Contourarea = getContour(mask,imgContour)
-    #getContour(mask,imgContour)
+    getContour(mask,imgContour)
     #Display
     #cv.imshow('frame',frame)
     #cv.imshow('mask',mask)
     #cv.imshow('res',res)
     cv.imshow('contour',imgContour)
-    cv.putText(imgContour, "area is " + str(Contourarea), (100, 100), font, 0.5, (255, 0, 0)) 
     k = cv.waitKey(5) & 0xFF
     if k == 27:
         break
