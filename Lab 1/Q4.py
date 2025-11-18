@@ -58,14 +58,14 @@ while(1):
     # Bitwise-AND mask and original image
     res = cv.bitwise_and(frame, frame, mask= mask)
     # Your crop image of frame(which is your target area of the frame)
-    img = cv.cvtColor(frame[150:310,250:400], cv.COLOR_BGR2RGB)
+    img = cv.cvtColor(frame[300:480,250:400], cv.COLOR_BGR2RGB)
     #Contour of your rectangle (Display of the rectangle)
-    designatedRec(250,150,150,160,frame)
+    #designatedRec(250,150,150,160,frame)
   
     # Display of your usual four images
-    cv.imshow('frame',frame)
-    cv.imshow('mask',mask)
-    cv.imshow('res',res)
+    #cv.imshow('frame',frame)
+    #cv.imshow('mask',mask)
+    #cv.imshow('res',res)
     cv.imshow('crop',img)
     
     # K-mean Algorithm (sorting color)
